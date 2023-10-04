@@ -2,6 +2,8 @@
 
 namespace App\Services\Paste;
 
+use function Illuminate\Events\queueable;
+
 class Service
 {
 
@@ -16,9 +18,19 @@ class Service
 
     }
 
+
+
     public function urlGenerate(): string
     {
-        return base64_encode(random_bytes(9));
+         $str= base64_encode(random_bytes(9));
+        for ($i = 0;$i<strlen($str);$i++){
+            if ($str[$i] == '/') {
+
+                $str[$i] = 'a';
+            }
+
+        }
+        return $str;
     }
 
     public function getUserId() : int

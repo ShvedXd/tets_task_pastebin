@@ -7,8 +7,19 @@ use Illuminate\Http\Request;
 
 class IndexController extends BaseController
 {
+
     public function __invoke()
     {
-        return view('paste.index');
+         $LANGS = [
+        'php',
+        'java',
+        'python',
+        'c',
+        'c++',
+        'html',
+        'css',
+
+    ];
+        return view('paste.index', compact('LANGS'));
     }
 }

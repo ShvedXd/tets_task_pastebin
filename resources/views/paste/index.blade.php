@@ -44,9 +44,10 @@
                 <label for="exampleFormControlSelect">Code HighLighting</label>
                 <select class="form-control"  name="highlight">
                     <option value="{{null}}">-</option>
-                    <option>php</option>
-                    <option>java</option>
-                    <option>python</option>
+                    @foreach($LANGS as $lang)
+                    <option>{{$lang}}</option>
+                    @endforeach
+                    >
                 </select>
             </div>
 

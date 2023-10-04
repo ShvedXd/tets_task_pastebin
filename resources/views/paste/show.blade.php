@@ -9,7 +9,10 @@
         <h4>{{$paste->title}}</h4>
         <label >Content</label>
 
-        <pre class={{$paste->highlight !== null ? "prettyprint linenums" : ''}}">{{$paste->content}}</pre>
+        <pre class=@if($paste->highlight !== null)
+         "prettyprint linenums lang-{{$paste->highlight}}"
+             @else  " "  @endif>{{$paste->content}}</pre>
+
 
     </div>
 
