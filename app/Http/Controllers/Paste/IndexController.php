@@ -8,6 +8,10 @@ use Illuminate\Http\Request;
 class IndexController extends BaseController
 {
 
+    /**
+     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
+     */
+
     public function __invoke()
     {
          $LANGS = [
@@ -20,6 +24,11 @@ class IndexController extends BaseController
         'css',
 
     ];
-        return view('paste.index', compact('LANGS'));
+        $latestPastes = $this->pasteRepository->getLatestPublicPastes();
+
+        $latestUserPastes = $this->pasteRepository->getUserLatestPastes();
+        return view('paste.index', compact('LANGS', 'latestPastes','latestUserPastes'));
     }
+
+
 }

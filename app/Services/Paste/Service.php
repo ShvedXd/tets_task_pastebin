@@ -10,9 +10,9 @@ class Service
 
     public function setDeleteTime(array $data): array
     {
-        $Currenttime = new \DateTimeImmutable(date('Y-m-d H:i'));
+        $currentTime = new \DateTimeImmutable(date('Y-m-d H:i:s'));
         $time = $data['delete_time'];
-        $data['delete_time'] = $Currenttime->modify("+$time");
+        $data['delete_time'] = $currentTime->modify("+$time");
 
         return $data;
 

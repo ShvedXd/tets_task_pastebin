@@ -1,4 +1,5 @@
 @extends('layouts.app')
+
 @section('content')
 
     <div class="container d-flex justify-content-center flex-column">
@@ -8,13 +9,14 @@
 
         <h4>{{$paste->title}}</h4>
         <label >Content</label>
-
+        <div class="card">
         <pre class=@if($paste->highlight !== null)
-         "prettyprint linenums lang-{{$paste->highlight}}"
-             @else  " "  @endif>{{$paste->content}}</pre>
+         "prettyprint linenums lang-{{$paste->highlight}} form-control"
+             @else  " "  @endif>{{$paste->content}}</pre></div>
 
 
     </div>
+
 
 
 @endsection

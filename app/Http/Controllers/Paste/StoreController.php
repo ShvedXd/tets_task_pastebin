@@ -13,7 +13,7 @@ class StoreController extends BaseController
 {
 
     /**
-     * @var StoreRequest
+     * @return \Illuminate\Http\RedirectResponse
      */
 
     public function __invoke(StoreRequest $request)
