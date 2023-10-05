@@ -30,7 +30,7 @@
                    +Paste
                 </a>
                 @can('view',auth()->user())
-                <a class="nav-link text-primary"  style="margin-left: 25px" href="{{ url('/') }}">
+                <a class="nav-link text-primary"  style="margin-left: 25px" href="{{ route('paste.showAny')}}">
                    My pastes
                 </a>
                 @endcan

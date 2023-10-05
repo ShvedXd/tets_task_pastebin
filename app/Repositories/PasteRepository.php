@@ -3,6 +3,7 @@
 namespace App\Repositories;
 
 use App\Models\Paste;
+use App\Models\User;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Support\Facades\DB;
@@ -15,10 +16,10 @@ class PasteRepository
      * @var array $data
      */
 
-    public function createPaste(array $data) : Paste
+    public function createPaste(array $data): Paste
     {
 
-         return   Paste::create($data);
+        return Paste::create($data);
 
 
     }
@@ -28,10 +29,9 @@ class PasteRepository
      * @param string $pasteHash
      * @return Paste
      */
-    public function findByHash (string $pasteHash) : Paste
+    public function findByHash(string $pasteHash): Paste
     {
         $paste = Paste::where('url_selector', $pasteHash)->firstOrFail();
-
 
 
         return $paste;
@@ -41,11 +41,12 @@ class PasteRepository
      * @return void
      * @throws \Exception
      */
-    public static function deleteByExpiration (){
+    public static function deleteByExpiration()
+    {
 
         $currentTime = new \DateTimeImmutable(date('Y-m-d H:i'));
         $pastesToDelete = Paste::where('delete_time', '<=', $currentTime)->get();
-        foreach ($pastesToDelete as $paste){
+        foreach ($pastesToDelete as $paste) {
             $paste->delete();
         }
 
@@ -54,7 +55,8 @@ class PasteRepository
     /**
      * @return Paste[]|\Illuminate\Database\Eloquent\Collection
      */
-    public function getAll(){
+    public function getAll()
+    {
 
         return Paste::all();
     }
@@ -65,8 +67,8 @@ class PasteRepository
     public function getLatestPublicPastes(): \Illuminate\Support\Collection
     {
 
-        return DB::table('pastes')->where('access_type','public')->
-        where('delete_time','>' , new \DateTimeImmutable(date('Y-m-d H:i')))->
+        return DB::table('pastes')->where('access_type', 'public')->
+        where('delete_time', '>', new \DateTimeImmutable(date('Y-m-d H:i')))->
         orderByDesc('created_at')->
         limit('10')->get();
 
@@ -75,15 +77,26 @@ class PasteRepository
     /**
      * @return \Illuminate\Support\Collection
      */
-    public function getUserLatestPastes() : \Illuminate\Support\Collection
+    public function getUserLatestPastes(): \Illuminate\Support\Collection
     {
-        if (auth()->user() !== null){
+        if (auth()->user() !== null) {
 
 
-            return auth()->user()->getUserPastes()->where('delete_time','>' , new \DateTimeImmutable(date('Y-m-d H:i')))->
+            return auth()->user()->getUserPastes()->where('delete_time', '>', new \DateTimeImmutable(date('Y-m-d H:i')))->
             orderByDesc('created_at')->
             limit('10')->get();
-        }  else return \Illuminate\Support\Collection::empty();
+        } else return \Illuminate\Support\Collection::empty();
+
+    }
+
+
+    public function getUserAllPaginatePastes(User $user): \Illuminate\Contracts\Pagination\LengthAwarePaginator
+    {
+
+
+        return $user->getUserPastes()
+            ->where('delete_time', '>', new \DateTimeImmutable(date('Y-m-d H:i')))
+            ->paginate(5);
 
     }
 

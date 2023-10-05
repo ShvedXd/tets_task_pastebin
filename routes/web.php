@@ -22,6 +22,8 @@ Route::group(['namespace' => '\App\Http\Controllers\Paste'], function () {
 
 });
 
+Route::get('/user/pastes', '\App\Http\Controllers\Paste\ShowAnyController')->name('paste.showAny');
+
 Auth::routes();
 
 Route::get('/', '\App\Http\Controllers\HomeController@index')->name('home');
