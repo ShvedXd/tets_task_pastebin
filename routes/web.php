@@ -22,6 +22,11 @@ Route::group(['namespace' => '\App\Http\Controllers\Paste'], function () {
 
 });
 
+
+Route::group(['middleware' => 'guest'], function () {
+    Route::get('/vk/auth', '\App\Http\Controllers\SocialController@index')->name('auth.vk');
+    Route::get('/vk/auth/callback', '\App\Http\Controllers\SocialController@callback');
+});
 Route::get('/user/pastes', '\App\Http\Controllers\Paste\ShowAnyController')->name('paste.showAny');
 
 Auth::routes();

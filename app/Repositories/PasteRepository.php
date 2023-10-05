@@ -89,6 +89,11 @@ class PasteRepository
 
     }
 
+    /**
+     * @param User $user
+     * @return \Illuminate\Contracts\Pagination\LengthAwarePaginator
+     * @throws \Exception
+     */
 
     public function getUserAllPaginatePastes(User $user): \Illuminate\Contracts\Pagination\LengthAwarePaginator
     {
