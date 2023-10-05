@@ -65,7 +65,10 @@ class PasteRepository
     public function getLatestPublicPastes(): \Illuminate\Support\Collection
     {
 
-        return DB::table('pastes')->where('access_type','public')->orderByDesc('created_at')->limit('10')->get();
+        return DB::table('pastes')->where('access_type','public')->
+        where('delete_time','>' , new \DateTimeImmutable(date('Y-m-d H:i')))->
+        orderByDesc('created_at')->
+        limit('10')->get();
 
     }
 
@@ -75,7 +78,11 @@ class PasteRepository
     public function getUserLatestPastes() : \Illuminate\Support\Collection
     {
         if (auth()->user() !== null){
-            return DB::table('pastes')->where('user_id', auth()->user()->id)->orderByDesc('created_at')->limit('10')->get();
+
+
+            return auth()->user()->getUserPastes()->where('delete_time','>' , new \DateTimeImmutable(date('Y-m-d H:i')))->
+            orderByDesc('created_at')->
+            limit('10')->get();
         }  else return \Illuminate\Support\Collection::empty();
 
     }

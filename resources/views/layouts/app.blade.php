@@ -29,10 +29,11 @@
                 <a class="nav-item btn btn-success" href="{{ route('paste.index') }}">
                    +Paste
                 </a>
-
+                @can('view',auth()->user())
                 <a class="nav-link text-primary"  style="margin-left: 25px" href="{{ url('/') }}">
                    My pastes
                 </a>
+                @endcan
 
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="{{ __('Toggle navigation') }}">
                     <span class="navbar-toggler-icon"></span>

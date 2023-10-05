@@ -10,4 +10,12 @@ class Paste extends Model
     use HasFactory;
 
     protected $guarded = false;
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\HasOne
+     */
+    public function getUser()
+    {
+        return $this->hasOne(User::class);
+    }
 }
