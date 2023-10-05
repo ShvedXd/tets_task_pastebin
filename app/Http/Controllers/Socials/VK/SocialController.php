@@ -1,14 +1,11 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Socials\VK;
 
-use App\Models\User;
+use App\Http\Controllers\Controller;
 use App\Repositories\SocialRepository;
 use App\Services\Social\SocialService;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Facades\Redirect;
 use Laravel\Socialite\Facades\Socialite;
 
 class SocialController extends Controller

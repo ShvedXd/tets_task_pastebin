@@ -9,7 +9,11 @@ use App\Models\User;
 class SocialRepository
 {
 
-    public function createOrUpdateSocial (array $data){
+    /**
+     * @param array $data
+     * @return mixed
+     */
+    public function createOrUpdateSocial (array $data): User{
 
         $user = User::where('email', $data['email'])->first();
 

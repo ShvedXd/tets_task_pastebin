@@ -23,10 +23,14 @@ Route::group(['namespace' => '\App\Http\Controllers\Paste'], function () {
 });
 
 
-Route::group(['middleware' => 'guest'], function () {
-    Route::get('/vk/auth', '\App\Http\Controllers\SocialController@index')->name('auth.vk');
-    Route::get('/vk/auth/callback', '\App\Http\Controllers\SocialController@callback');
+Route::group(['middleware' => 'guest', 'namespace'=>'\App\Http\Controllers\Socials'], function () {
+    Route::get('/vk/auth', 'VK\SocialController@index')->name('auth.vk');
+    Route::get('/vk/auth/callback', 'VK\SocialController@callback');
+    Route::get('/google/auth', 'Google\SocialController@index')->name('auth.google');
+    Route::get('/google/auth/callback', 'Google\SocialController@callback');
 });
+
+
 Route::get('/user/pastes', '\App\Http\Controllers\Paste\ShowAnyController')->name('paste.showAny');
 
 Auth::routes();

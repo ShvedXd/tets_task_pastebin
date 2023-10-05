@@ -57,7 +57,8 @@
                         <div class="row mb-0">
 
                             <div class="col-md-8 offset-md-4">
-                                <a href="{{route('auth.vk')}}" class="btn btn-primary">VK</a>
+                                <a href="{{route('auth.vk')}}" class="btn btn-success">VK</a>
+                                <a href="{{route('auth.google')}}" class="btn btn-success">Google</a>
                                 <button type="submit" class="btn btn-primary">
                                     {{ __('Login') }}
                                 </button>
