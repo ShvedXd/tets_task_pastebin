@@ -18,4 +18,12 @@ class Paste extends Model
     {
         return $this->hasOne(User::class);
     }
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function getComplains()
+    {
+        return $this->hasMany(Complaint::class);
+    }
 }
