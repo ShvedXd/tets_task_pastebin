@@ -15,6 +15,7 @@ class SocialService
         $name = $user->getName();
         $password = Hash::make('1234456678');
 
+
         $data = ['email' => $email,
             'password' => $password,
             'name' => $name,

@@ -45,10 +45,14 @@ class PasteRepository
     {
 
         $currentTime = new \DateTimeImmutable(date('Y-m-d H:i'));
-        $pastesToDelete = Paste::where('delete_time', '<=', $currentTime)->get();
-        foreach ($pastesToDelete as $paste) {
-            $paste->delete();
+        DB::transaction(function () {
+            $pastesToDelete = Paste::where('delete_time', '<=', $currentTime)->get();
+            foreach ($pastesToDelete as $paste) {
+                $paste->delete();
         }
+        });
+
+
 
     }
 

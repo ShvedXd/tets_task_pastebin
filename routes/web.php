@@ -30,6 +30,10 @@ Route::group(['middleware' => 'guest', 'namespace'=>'\App\Http\Controllers\Socia
     Route::get('/google/auth/callback', 'Google\SocialController@callback');
 });
 
+Route::group(['namespace' => '\App\Http\Controllers\Complaint'], function () {
+    Route::post('/complaint', 'StoreController')->name('complaint.store');
+});
+
 
 Route::get('/user/pastes', '\App\Http\Controllers\Paste\ShowAnyController')->name('paste.showAny');
 
