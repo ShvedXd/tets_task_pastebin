@@ -15,8 +15,10 @@ class ShowAnyController extends BaseController
  {
      $this->authorize('view', auth()->user());
      $pastes = $this->pasteRepository->getUserAllPaginatePastes(auth()->user(), 5);
+     $latestPastes = $this->pasteRepository->getLatestPublicPastes();
 
-     return view('paste.showAny', compact('pastes'));
+     $latestUserPastes = $this->pasteRepository->getUserLatestPastes();
+     return view('paste.showAny', compact('pastes','latestPastes', 'latestUserPastes'));
  }
 
 }

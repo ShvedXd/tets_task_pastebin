@@ -27,8 +27,9 @@ class ShowController extends BaseController
         $this->authorize('showPaste',[self::class, $paste]);
 
 
+        $latestUserPastes = $this->pasteRepository->getUserLatestPastes();
 
-        return view('paste.show', compact('paste', 'latestPastes'));
+        return view('paste.show', compact('paste', 'latestPastes','latestUserPastes'));
 
     }
 }

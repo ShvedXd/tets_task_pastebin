@@ -62,6 +62,7 @@
 
     </div>
 
+    @include('layouts.pastesBlock')
 
 
 @endsection
