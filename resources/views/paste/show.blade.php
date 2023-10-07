@@ -6,19 +6,23 @@
 
                      <label >Paste Link</label>
                     <textarea class="form-control" style="margin-bottom: 50px">{{url()->current()}}</textarea>
+        <div class="card">
+            <div class="card-header">
+        <h3>Title: {{$paste->title}}</h3>
+            </div>
 
-        <h4>{{$paste->title}}</h4>
-        <label >Content</label>
-        <div class="card-body">
+
+             <div class="card-body">
         <pre class=@if($paste->highlight !== null)
          "prettyprint linenums lang-{{$paste->highlight}} form-control"
              @else  " "  @endif>{{$paste->content}}</pre>
+            </div>
         </div>
     </div>
 
 
     <div class="container " >
-        <button style="margin-left: 1150px"  name="complain" type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#exampleModal" data-bs-whatever="Complain">Report</button>
+        <button style="margin-left: 1150px; margin-top: 10px"  name="complain" type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#exampleModal" data-bs-whatever="Complain">Report</button>
 
         {{---modal window---}}
 

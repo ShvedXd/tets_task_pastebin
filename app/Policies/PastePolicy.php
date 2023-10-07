@@ -42,6 +42,7 @@ class PastePolicy
 
 
         if ($paste->access_type == 'private') {
+            if (!is_null($user))
             if ($user->id == $paste->user_id) {
 
                 return Response::allow();

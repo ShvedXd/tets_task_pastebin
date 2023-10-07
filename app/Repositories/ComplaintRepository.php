@@ -3,15 +3,24 @@
 namespace App\Repositories;
 
 use App\Models\Complaint;
+use Illuminate\Database\Eloquent\Model;
 
-class ComplaintRepository
+
+class ComplaintRepository implements Irepository
 {
 
 
-    public function createComplaint(array $data)
+    public function create(array $data)
     {
 
         Complaint::create($data);
 
+    }
+
+
+
+    public function getAll(): Model
+    {
+        return Complaint::all();
     }
 }

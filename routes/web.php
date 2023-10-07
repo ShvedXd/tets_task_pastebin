@@ -40,3 +40,9 @@ Route::get('/user/pastes', '\App\Http\Controllers\Paste\ShowAnyController')->nam
 Auth::routes();
 
 Route::get('/', '\App\Http\Controllers\HomeController@index')->name('home');
+
+
+Route::group(['prefix' => 'admin'], function () {
+    Route::get('/banned/{id}', '\App\Http\Controllers\Ban\BanController')->name('user.ban');
+    Voyager::routes();
+});
