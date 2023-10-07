@@ -22,7 +22,7 @@ class StoreController extends BaseController
         $data = $this->service->setDeleteTime($data);
         $data['url_selector'] = $this->service->urlGenerate();
         $data['user_id'] = $this->service->getUserId();
-        $paste = $this->pasteRepository->createPaste($data);
+        $paste = $this->pasteRepository->create($data);
 
 
         return redirect()->route('paste.show', $paste->url_selector);

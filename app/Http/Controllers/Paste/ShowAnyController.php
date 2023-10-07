@@ -7,11 +7,14 @@ use Illuminate\Http\Request;
 
 class ShowAnyController extends BaseController
 {
-
+    /**
+     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
+     * @throws \Illuminate\Auth\Access\AuthorizationException
+     */
  public function __invoke()
  {
      $this->authorize('view', auth()->user());
-     $pastes = $this->pasteRepository->getUserAllPaginatePastes(auth()->user());
+     $pastes = $this->pasteRepository->getUserAllPaginatePastes(auth()->user(), 5);
 
      return view('paste.showAny', compact('pastes'));
  }

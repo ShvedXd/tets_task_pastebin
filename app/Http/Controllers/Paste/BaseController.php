@@ -18,6 +18,12 @@ class BaseController extends Controller
      * @var Service
      */
     protected $service;
+
+
+    /**
+     * @param PasteRepository $pasteRepository
+     * @param Service $service
+     */
     public function __construct(PasteRepository $pasteRepository,Service $service)
     {
         $this->pasteRepository = $pasteRepository;
