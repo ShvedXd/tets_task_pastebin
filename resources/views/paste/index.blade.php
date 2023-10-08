@@ -24,7 +24,7 @@
                     <option >1 day</option>
                     <option >1 week</option>
                     <option >1 month</option>
-                    <option value="{{null}}">unlimited</option>
+                    <option value="100 years">unlimited</option>
                 </select>
             </div>
 
@@ -35,7 +35,7 @@
                 <select class="form-control"  name="access_type">
                     <option>public</option>
                     <option>unlisted </option>
-                    <option>private</option>
+                     @if(!is_null(auth()->user()))  <option>private</option>@endif
 
                 </select>
             </div>

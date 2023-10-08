@@ -22,6 +22,9 @@ class StoreController extends BaseController
         $data = $this->service->setDeleteTime($data);
         $data['url_selector'] = $this->service->urlGenerate();
         $data['user_id'] = $this->service->getUserId();
+
+        $this->authorize('storePrivate',[self::class,$data['access_type']]);
+
         $paste = $this->pasteRepository->create($data);
 
 

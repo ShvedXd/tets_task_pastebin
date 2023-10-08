@@ -37,7 +37,7 @@ class PastePolicy
     public function showPaste(?User $user, Paste $paste): Response
     {
         if ($this->service->isExposure($paste)) {
-            return Response::deny();
+            return Response::deny('Time is out');
         }
 
 
@@ -49,12 +49,23 @@ class PastePolicy
 
             }
 
-            return Response::deny();
+            return Response::deny('This is private paste');
         }
 
         return Response::allow();
 
 
+    }
+
+    public function storePrivate(?User $user, string $accessType )
+    {
+
+        if(is_null($user) && $accessType === 'private'){
+
+            $message = 'You will not see this paste. Please Login to create private pastes';
+            return Response::deny($message);
+        }
+        return Response::allow();
     }
 
 }
