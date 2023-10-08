@@ -67,7 +67,7 @@ class PasteRepository implements Irepository
     /**
      * @return \Illuminate\Database\Eloquent\Model
      */
-    public function getAll() : \Illuminate\Database\Eloquent\Model
+    public function getAll() : Collection
     {
 
         return Paste::all();
@@ -113,8 +113,15 @@ class PasteRepository implements Irepository
 
         return $user->getUserPastes()
             ->where('delete_time', '>', $this->getCurrentTime())
+            ->orderByDesc('created_at')
             ->paginate($paginateValue);
 
     }
+
+   public function delete(Paste $paste){
+
+       $paste->delete();
+
+   }
 
 }

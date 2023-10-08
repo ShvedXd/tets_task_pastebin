@@ -29,7 +29,7 @@ class StoreRequest extends FormRequest
             'delete_time' => 'required',
             'url_selector' => '',
             'highlight' => '',
-            'access_type' => 'required',
+            'access_type' => 'required|string',
             'user_id' => ''
 
         ];

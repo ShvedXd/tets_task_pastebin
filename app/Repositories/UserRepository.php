@@ -3,6 +3,7 @@
 namespace App\Repositories;
 
 use App\Models\User;
+use Illuminate\Database\Eloquent\Collection;
 
 
 class UserRepository implements Irepository
@@ -35,13 +36,15 @@ class UserRepository implements Irepository
     /**
      * @param User $user
      * @param bool $value
-     * @return void
+     * @return User
      */
     public function setBanned(User $user, bool $value){
         if ($value){
             $user->update(['is_banned'=>false]);
         } else  $user->update(['is_banned' => true] );
 
+
+        return $user;
     }
 
     /**
@@ -56,7 +59,7 @@ class UserRepository implements Irepository
     /**
      * @return \Illuminate\Database\Eloquent\Model
      */
-    public function getAll() : \Illuminate\Database\Eloquent\Model
+    public function getAll() : Collection
     {
 
         return User::all();

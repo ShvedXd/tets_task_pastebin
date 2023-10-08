@@ -8,7 +8,7 @@
                     <textarea class="form-control" style="margin-bottom: 50px">{{url()->current()}}</textarea>
         <div class="card">
             <div class="card-header">
-        <h3>Title: {{$paste->title}}</h3>
+        <h3>Title:  {{$paste->title}}</h3>
             </div>
 
 
