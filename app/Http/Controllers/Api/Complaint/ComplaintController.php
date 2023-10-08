@@ -27,7 +27,7 @@ class ComplaintController extends Controller
      *
      * @return \Illuminate\Http\Resources\Json\AnonymousResourceCollection
      */
-    public function index()
+    public function index() : \Illuminate\Http\Resources\Json\AnonymousResourceCollection
     {
         return ComplaintResource::collection($this->repository->getAll());
     }
@@ -49,37 +49,9 @@ class ComplaintController extends Controller
         return new ComplaintResource($complaint);
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
-    {
-        //
-    }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, $id)
-    {
-        //
-    }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy($id)
-    {
 
-    }
+
+
 }
