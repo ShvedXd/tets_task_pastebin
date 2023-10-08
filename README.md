@@ -1,64 +1,117 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400"></a></p>
+# Установка и использование
+___
 
-<p align="center">
-<a href="https://travis-ci.org/laravel/framework"><img src="https://travis-ci.org/laravel/framework.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+## Composer
 
-## About Laravel
+Для установки пакетов и зависимостей
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+```
+composer install
+```
+или 
+```
+composer install --ignore-platform-req=ext-dom --ignore-platform-req=ext-curl
+```
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+## .env
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+Переименовать .env-example в .env 
 
-## Learning Laravel
+Заполнить данные о БД.
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+## Docker
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains over 1500 video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+Для сборки docker-контейнера использовал Laravel Sail.
 
-## Laravel Sponsors
+После установки пакетов для удобства использования необходимо создать alias
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the Laravel [Patreon page](https://patreon.com/taylorotwell).
+```
+alias sail='[ -f sail ] && sh sail || sh vendor/bin/sail'
+```
 
-### Premium Partners
+Сборка контейнера
 
-- **[Vehikl](https://vehikl.com/)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Cubet Techno Labs](https://cubettech.com)**
-- **[Cyber-Duck](https://cyber-duck.co.uk)**
-- **[Many](https://www.many.co.uk)**
-- **[Webdock, Fast VPS Hosting](https://www.webdock.io/en)**
-- **[DevSquad](https://devsquad.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel/)**
-- **[OP.GG](https://op.gg)**
-- **[WebReinvent](https://webreinvent.com/?utm_source=laravel&utm_medium=github&utm_campaign=patreon-sponsors)**
-- **[Lendio](https://lendio.com)**
+```
+sail up -d 
+```
+___
 
-## Contributing
+В случае ошибки `[ERROR] Another process with pid # is using unix socket file.` удалить `docker/volumes/project_name/_data/mysql.sock.lock` файл.
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+## БД
 
-## Code of Conduct
+После запуска контейнера создайте БД test_task и запустите миграции 
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+```
+sail artisan migrate --seed
+```
 
-## Security Vulnerabilities
+Таким образом буду созданы два пользователя с email admin@admin.ru и user@user.ru . Пароль для обоих пользователей password.
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+## Admin panel 
 
-## License
+Для установки 
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+```
+sail artisan voyager:install
+```
+
+Для создания администратора 
+```
+sail artisan voyager:admin admin@admin.ru
+```
+
+Теперь пользователь с email `admin@admin.ru` обладает доступом к панели администратора.
+
+### функции
+
+Просмотр пользователей, возможность блокировки.
+
+*Заблокированный пользователь теряет доступ к аккаунту.*
+
+![Imgur](https://i.imgur.com/VEGhk3u.png)
+___
+**Просмотр *"паст"***
+
+![](https://i.imgur.com/hlVKJmq.png)
+___
+**Просмотр жалоб**
+
+![](https://i.imgur.com/H9w1yO6.png)
+___
+
+## Api
+
+Написанны Api запросы  для пользователей, "паст" , жалоб.
+
+Запросы могут выполняться с использованием `JwtToken`. Для этого необходимо раскомментировать middleware в `rotes/api.php`
+
+Далее 
+```
+sail artisan jwt:secret
+```
+
+Будет создан jwt token в .env. После необходимо послать POST запрос по маршруту `http://localhost:3002/api/auth/login` с параметрами `email` и `password`
+
+[JwtAuth](https://jwt-auth.readthedocs.io/en/develop/laravel-installation/)
+
+## Планировщик 
+
+Чтобы не захламлять таблицу "пастами", время жизни которых истекло, в планировщике описал задачу для их удаления из таблицы. 
+
+Для запуска задачи
+
+```
+sail artisan schedule:work 
+```
+
+
+
+
+
+
+
+
+
+
+

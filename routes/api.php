@@ -26,7 +26,7 @@ Route::apiResources([
     'user' => UserController::class,
 
 
-], ['middleware' => 'jwt.auth']);
+]/**, ['middleware' => 'jwt.auth']**/);
 
 Route::group([
     'namespace' => 'App\Http\Controllers',
