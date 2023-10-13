@@ -3,7 +3,8 @@
 namespace App\Services\Paste;
 
 use App\Models\Paste;
-use function Illuminate\Events\queueable;
+use DateTimeImmutable;
+
 
 class Service
 {
@@ -15,11 +16,11 @@ class Service
      * @throws \Exception
      */
 
-    public function setDeleteTime(array $data): array
+    public function setDeleteTime(string $data): DateTimeImmutable
     {
         $currentTime = new \DateTimeImmutable(date('Y-m-d H:i:s'));
-        $time = $data['delete_time'];
-        $data['delete_time'] = $currentTime->modify("+$time");
+        $time = $data;
+        $data = $currentTime->modify("+$time");
 
         return $data;
 
@@ -46,13 +47,13 @@ class Service
     /**
      * @return int
      */
-    public function getUserId(): int
+    public function getUserId($user): int
     {
-        $user = auth()->user();
+
         if ($user !== null) {
             return $user->id;
 
-        } else return 0;
+        } else return  0;
 
 
     }

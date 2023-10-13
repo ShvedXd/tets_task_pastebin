@@ -26,7 +26,7 @@ class IndexController extends BaseController
     ];
         $latestPastes = $this->pasteRepository->getLatestPublicPastes();
 
-        $latestUserPastes = $this->pasteRepository->getUserLatestPastes();
+        $latestUserPastes = $this->pasteRepository->getUserLatestPastes(auth()->id());
         return view('paste.index', compact('LANGS', 'latestPastes','latestUserPastes'));
     }
 

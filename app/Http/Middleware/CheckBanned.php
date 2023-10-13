@@ -17,7 +17,7 @@ class CheckBanned
 
     public function handle($request, Closure $next)
     {
-        if (auth()->check() && auth()->user()->is_banned == true) {
+        if (auth()->check() && auth()->user()->is_banned) {
 
 
             auth()->logout();

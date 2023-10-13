@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Complaint;
 
 
+use App\DTO\StoreComplaintDTO;
 use App\Http\Requests\Complaint\StoreRequest;
 use Illuminate\Http\Request;
 
@@ -15,10 +16,9 @@ class StoreController extends BaseController
      */
     public function __invoke(StoreRequest $request)
     {
-        $data = $request->validated();
-        $url_selector = $data['url_selector'];
-        unset($data['url_selector']);
-        $this->repository->create($data);
+        $dto = StoreComplaintDTO::fromRequest($request);
+        $url_selector = $request->get('url_selector');
+        $this->repository->create($dto->toArray());
 
         return redirect()->route('paste.show',$url_selector);
     }

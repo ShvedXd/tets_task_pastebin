@@ -2,6 +2,7 @@
 
 namespace App\Repositories;
 
+use App\DTO\StorePasteDTO;
 use App\Models\Paste;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Builder;
@@ -16,22 +17,18 @@ class PasteRepository implements Irepository
     /**
      * @throws \Exception
      */
-    private function getCurrentTime() {
+    private function getCurrentTime()
+    {
         return new \DateTimeImmutable(date('Y-m-d H:i'));
-}
+    }
 
-    /**
-     * @return Paste
-     * @var array $data
-     */
+
 
     public function create(array $data): Paste
     {
-
         return Paste::create($data);
-
-
     }
+
 
 
     /**
@@ -52,22 +49,12 @@ class PasteRepository implements Irepository
      */
 
 
-    public static function deleteByExpiration()
-    {
 
-        $currentTime = new \DateTimeImmutable(date('Y-m-d H:i'));
-
-            $pastesToDelete = Paste::where('delete_time', '<=', $currentTime)->get();
-            foreach ($pastesToDelete as $paste) {
-                $paste->delete();
-
-            }
-    }
 
     /**
      * @return \Illuminate\Database\Eloquent\Model
      */
-    public function getAll() : Collection
+    public function getAll(): Collection
     {
 
         return Paste::all();
@@ -76,25 +63,24 @@ class PasteRepository implements Irepository
     /**
      * @return \Illuminate\Support\Collection
      */
-    public function getLatestPublicPastes(): \Illuminate\Support\Collection
+    public function getLatestPublicPastes(): \Illuminate\Database\Eloquent\Collection
     {
-
-        return DB::table('pastes')->where('access_type', 'public')->
-        where('delete_time', '>', $this->getCurrentTime())->
-        orderByDesc('created_at')->
-        limit('10')->get();
+        $pastes = Paste::orderBy('created_at', 'desc');
+        return $pastes->where('access_type', 'public')
+            ->where('delete_time', '>', $this->getCurrentTime())
+            ->take('10')
+            ->get();
 
     }
 
     /**
      * @return \Illuminate\Support\Collection
      */
-    public function getUserLatestPastes(): \Illuminate\Support\Collection
+    public function getUserLatestPastes(int|null $userId): \Illuminate\Support\Collection
     {
-        if (auth()->user() !== null) {
-
-
-            return auth()->user()->getUserPastes()->where('delete_time', '>', $this->getCurrentTime())->
+        $user = User::find($userId);
+        if ($user !== null) {
+            return $user->getUserPastes()->where('delete_time', '>', $this->getCurrentTime())->
             orderByDesc('created_at')->
             limit('10')->get();
         } else return \Illuminate\Support\Collection::empty();
@@ -107,9 +93,8 @@ class PasteRepository implements Irepository
      * @throws \Exception
      */
 
-    public function getUserAllPaginatePastes(User $user , int $paginateValue): \Illuminate\Contracts\Pagination\LengthAwarePaginator
+    public function getUserAllPaginatePastes(User $user, int $paginateValue): \Illuminate\Contracts\Pagination\LengthAwarePaginator
     {
-
 
         return $user->getUserPastes()
             ->where('delete_time', '>', $this->getCurrentTime())
@@ -118,10 +103,11 @@ class PasteRepository implements Irepository
 
     }
 
-   public function delete(Paste $paste){
+    public function delete(Paste $paste)
+    {
 
-       $paste->delete();
+        $paste->delete();
 
-   }
+    }
 
 }

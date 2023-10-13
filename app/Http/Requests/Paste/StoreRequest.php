@@ -27,10 +27,9 @@ class StoreRequest extends FormRequest
             'title' => 'required|string',
             'content' => 'required|string',
             'delete_time' => 'required',
-            'url_selector' => '',
             'highlight' => '',
             'access_type' => 'required|string',
-            'user_id' => ''
+
 
         ];
     }

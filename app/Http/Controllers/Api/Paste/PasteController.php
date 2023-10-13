@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Api\Paste;
 
+use App\DTO\StorePasteDTO;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Paste\StoreRequest;
 use App\Http\Resources\Paste\PasteResource;
@@ -41,7 +42,8 @@ class PasteController extends Controller
      */
     public function store(StoreRequest $request)
     {
-        $paste = $this->repository->create($request->validated());
+        $dto = StorePasteDTO::fromRequest($request);
+        $paste = $this->repository->create($dto->toArray());
         return new PasteResource($paste);
     }
 
@@ -68,7 +70,7 @@ class PasteController extends Controller
      */
     public function destroy(Paste $paste)
     {
-        $paste->delete();
+        $this->repository->delete($paste);
 
         return \response(null, ResponseAlias::HTTP_NO_CONTENT);
 

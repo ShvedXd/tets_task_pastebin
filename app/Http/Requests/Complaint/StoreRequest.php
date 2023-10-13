@@ -24,7 +24,6 @@ class StoreRequest extends FormRequest
     public function rules()
     {
         return [
-            'user_id' => '',
             'paste_id' => 'required',
             'reason' => 'required|string',
             'url_selector' => '',
