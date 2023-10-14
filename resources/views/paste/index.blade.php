@@ -33,10 +33,13 @@
             <div class="form-group" style="margin-bottom: 20px">
                 <label for="exampleFormControlSelect">Paste Exposure</label>
                 <select class="form-control"  name="access_type">
-                    <option>public</option>
-                    <option>unlisted </option>
-                     @if(!is_null(auth()->user()))  <option>private</option>@endif
-
+                    @foreach($accessTypes as $accessType)
+                        @if($accessType->value =='private' && is_null(auth()->user()) )
+                    <option hidden=""></option>
+                        @else
+                            <option>{{$accessType->value}}</option>
+                        @endif
+                    @endforeach
                 </select>
             </div>
 
@@ -44,8 +47,8 @@
                 <label for="exampleFormControlSelect">Code HighLighting</label>
                 <select class="form-control"  name="highlight">
                     <option value="{{null}}">-</option>
-                    @foreach($LANGS as $lang)
-                    <option>{{$lang}}</option>
+                    @foreach($langs as $lang)
+                        <option >{{$lang->value}}</option>
                     @endforeach
                     >
                 </select>
