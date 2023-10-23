@@ -110,4 +110,14 @@ class PasteRepository implements Irepository
 
     }
 
+    public function deleteTimeOutPastes()
+    {
+        $currentTime = new \DateTimeImmutable(date('Y-m-d H:i:s'));
+        $pastesToDelete = Paste::where('delete_time', '<=', $currentTime)->get();
+        foreach ($pastesToDelete as $paste){
+            $paste->delete();
+        }
+
+    }
+
 }

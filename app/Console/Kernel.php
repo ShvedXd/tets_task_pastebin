@@ -5,29 +5,34 @@ namespace App\Console;
 use App\Http\Controllers\Paste\TimeDeleteController;
 use App\Models\Paste;
 use App\Repositories\PasteRepository;
-use App\Services\Paste\Service;
 use Illuminate\Console\Scheduling\Schedule;
+use Illuminate\Contracts\Events\Dispatcher;
+use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
 
 class Kernel extends ConsoleKernel
 {
+    private PasteRepository $repository;
+
     /**
      * Define the application's command schedule.
      *
      * @param  \Illuminate\Console\Scheduling\Schedule  $schedule
      * @return void
      */
+
+   public function __construct(Application $app, Dispatcher $events,PasteRepository $repository)
+   {
+       parent::__construct($app, $events);
+       $this->repository = $repository;
+   }
+
+
     protected function schedule(Schedule $schedule)
     {
 
         // $schedule->command('inspire')->hourly();
-        $schedule->call(function (){
-            $currentTime = new \DateTimeImmutable(date('Y-m-d H:i:s'));
-            $pastesToDelete = Paste::where('delete_time', '<=', $currentTime)->get();
-            foreach ($pastesToDelete as $paste){
-                $paste->delete();
-            }
-        })->everyMinute();
+        $schedule->call($this->repository->deleteTimeOutPastes())->everyMinute();
     }
 
     /**

@@ -15,7 +15,7 @@ class CreatePastesTable extends Migration
     {
         Schema::create('pastes', function (Blueprint $table) {
             $table->id();
-            $table->integer('user_id');
+            $table->foreignId('user_id')->constrained('users', 'id');
             $table->string('title');
             $table->text('content');
             $table->string('url_selector');
